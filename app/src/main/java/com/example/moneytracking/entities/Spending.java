@@ -9,16 +9,22 @@ public class Spending {
     private String title;
     private Date buyDate;
 
-    public Spending(int cost, String title, Date buyDate) {
+    public Spending(String title, int cost, Date buyDate) throws InvalidSpendingException {
+        if (title == null || buyDate == null) {
+            throw new InvalidSpendingException("title or cost are null");
+        }
+
+        if (title.equals("")) {
+            throw new InvalidSpendingException("title cannot be an empty string");
+        }
+
         this.cost = cost;
         this.title = title;
         this.buyDate = buyDate;
     }
 
-    public Spending(int cost, String title) {
-        this.cost = cost;
-        this.title = title;
-        this.buyDate = Calendar.getInstance().getTime();;
+    public Spending(String title, int cost) throws InvalidSpendingException {
+        this(title, cost, Calendar.getInstance().getTime());
     }
 
     public int getCost() {
@@ -52,5 +58,11 @@ public class Spending {
                 ", title='" + title + '\'' +
                 ", buyDate=" + buyDate +
                 '}';
+    }
+
+    public static class InvalidSpendingException extends Exception {
+        public InvalidSpendingException(String message) {
+            super(message);
+        }
     }
 }
