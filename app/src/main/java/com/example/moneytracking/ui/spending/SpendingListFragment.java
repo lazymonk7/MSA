@@ -11,6 +11,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.moneytracking.R;
 import com.example.moneytracking.databinding.FragmentSpendingListBinding;
+import com.google.android.material.snackbar.Snackbar;
 
 
 public class SpendingListFragment extends Fragment {
@@ -24,8 +25,16 @@ public class SpendingListFragment extends Fragment {
     ) {
 
         binding = FragmentSpendingListBinding.inflate(inflater, container, false);
-        return binding.getRoot();
 
+        binding.fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
+            }
+        });
+
+        return binding.getRoot();
     }
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {

@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 public class Spending {
+
     private int cost;
     private String title;
     private Date buyDate;
@@ -42,5 +43,14 @@ public class Spending {
 
     public void setBuyDate(Date buyDate) {
         this.buyDate = buyDate;
+    }
+
+    @Override
+    public String toString() {
+        return "Spending{" +
+                "cost=" + cost +
+                ", title='" + title + '\'' +
+                ", buyDate=" + buyDate +
+                '}';
     }
 }
