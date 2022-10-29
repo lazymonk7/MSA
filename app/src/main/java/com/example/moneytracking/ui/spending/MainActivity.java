@@ -1,7 +1,8 @@
-package com.example.moneytracking;
+package com.example.moneytracking.ui.spending;
 
 import android.os.Bundle;
 
+import com.example.moneytracking.R;
 import com.google.android.material.snackbar.Snackbar;
 
 import androidx.appcompat.app.AppCompatActivity;
