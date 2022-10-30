@@ -25,8 +25,7 @@ public class SpendingAddFragment extends Fragment {
     private FragmentSpendingAddBinding binding;
     private Executor executor;
     private final String addSpendingTag = "SpendingAddFragment";
-
-    private SpendingDao spendingDao;
+    private ApplicationDatabase applicationDatabase;
 
 
     @Override
@@ -41,9 +40,9 @@ public class SpendingAddFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ApplicationDatabase applicationDatabase = ((MainActivity)getActivity()).getAppDB();
         executor = ((MainActivity)getActivity()).getExecutor();
-        spendingDao = applicationDatabase.SpendingDao();
+        applicationDatabase = ApplicationDatabase.getInstance(getContext());
+        SpendingDao spendingDao = applicationDatabase.SpendingDao();
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
