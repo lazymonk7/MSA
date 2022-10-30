@@ -12,14 +12,21 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.moneytracking.R;
+import com.example.moneytracking.data.ApplicationDatabase;
+import com.example.moneytracking.data.SpendingDao;
 import com.example.moneytracking.databinding.FragmentSpendingAddBinding;
 import com.example.moneytracking.entities.Spending;
+
+import java.util.concurrent.Executor;
 
 
 public class SpendingAddFragment extends Fragment {
 
     private FragmentSpendingAddBinding binding;
+    private Executor executor;
     private final String addSpendingTag = "SpendingAddFragment";
+
+    private SpendingDao spendingDao;
 
 
     @Override
@@ -27,7 +34,6 @@ public class SpendingAddFragment extends Fragment {
             LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState
     ) {
-
         binding = FragmentSpendingAddBinding.inflate(inflater, container, false);
         return binding.getRoot();
 
@@ -35,6 +41,9 @@ public class SpendingAddFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ApplicationDatabase applicationDatabase = ((MainActivity)getActivity()).getAppDB();
+        executor = ((MainActivity)getActivity()).getExecutor();
+        spendingDao = applicationDatabase.SpendingDao();
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -50,9 +59,9 @@ public class SpendingAddFragment extends Fragment {
                 try {
                     Spending sp = new Spending(binding.tiSpendingTitle.getText().toString(), Integer.parseInt(binding.tiSpendingCost.getText().toString()));
                     Log.i(addSpendingTag, sp.toString());
-                    Log.i(addSpendingTag, binding.tiSpendingTitle.getText().toString());
-                    Log.i(addSpendingTag, binding.tiSpendingCost.getText().toString());
-                    // TODO: Persist
+                    Log.d(addSpendingTag, binding.tiSpendingTitle.getText().toString());
+                    Log.d(addSpendingTag, binding.tiSpendingCost.getText().toString());
+                    executor.execute(() -> spendingDao.insertSpendings(sp));
                 } catch (NullPointerException | NumberFormatException  | Spending.InvalidSpendingException e) {
                     Log.e(addSpendingTag, e.toString());
                     Toast toast = Toast.makeText(view.getContext(), "unable to create spending item", Toast.LENGTH_LONG);
