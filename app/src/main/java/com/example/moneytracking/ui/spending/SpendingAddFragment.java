@@ -52,6 +52,7 @@ public class SpendingAddFragment extends Fragment {
                     Log.i(addSpendingTag, sp.toString());
                     Log.i(addSpendingTag, binding.tiSpendingTitle.getText().toString());
                     Log.i(addSpendingTag, binding.tiSpendingCost.getText().toString());
+                    // TODO: Persist
                 } catch (NullPointerException | NumberFormatException  | Spending.InvalidSpendingException e) {
                     Log.e(addSpendingTag, e.toString());
                     Toast toast = Toast.makeText(view.getContext(), "unable to create spending item", Toast.LENGTH_LONG);

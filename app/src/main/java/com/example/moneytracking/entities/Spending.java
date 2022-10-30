@@ -1,14 +1,39 @@
 package com.example.moneytracking.entities;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.Ignore;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
 import java.util.Calendar;
 import java.util.Date;
 
-public class Spending {
 
+@Entity
+public class Spending {
+    @PrimaryKey(autoGenerate = true)
+    private int uid;
+
+    @ColumnInfo(name = "cost")
     private int cost;
+
+    @ColumnInfo(name = "title")
     private String title;
+
+    @ColumnInfo(name = "buy_date")
+    @TypeConverters(DateConverter.class)
     private Date buyDate;
 
+    public Spending() {
+    }
+
+    @Ignore
+    public Spending(String title, int cost) throws InvalidSpendingException {
+        this(title, cost, Calendar.getInstance().getTime());
+    }
+
+    @Ignore
     public Spending(String title, int cost, Date buyDate) throws InvalidSpendingException {
         if (title == null || buyDate == null) {
             throw new InvalidSpendingException("title or cost are null");
@@ -23,8 +48,12 @@ public class Spending {
         this.buyDate = buyDate;
     }
 
-    public Spending(String title, int cost) throws InvalidSpendingException {
-        this(title, cost, Calendar.getInstance().getTime());
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
     }
 
     public int getCost() {
