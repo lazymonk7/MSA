@@ -40,7 +40,7 @@ public class SpendingAddFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 NavHostFragment.findNavController(SpendingAddFragment.this)
-                        .navigate(R.id.action_SecondFragment_to_FirstFragment);
+                        .navigate(R.id.action_SpendingAddFragment_to_SpendingListFragment);
             }
         });
 
