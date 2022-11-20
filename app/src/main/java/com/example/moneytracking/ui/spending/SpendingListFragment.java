@@ -1,6 +1,7 @@
 package com.example.moneytracking.ui.spending;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 import com.example.moneytracking.R;
 import com.example.moneytracking.databinding.FragmentSpendingListBinding;
+import com.example.moneytracking.models.SpendingViewModel;
 import com.google.android.material.snackbar.Snackbar;
 
 
@@ -39,6 +41,20 @@ public class SpendingListFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        SpendingViewModel spendingViewModel = ((MainActivity)getActivity()).getSpendingViewModel();
+        spendingViewModel.getSpendings().observe(getViewLifecycleOwner(), spendings -> {
+            if (spendings != null) {
+                Log.i("SpendingListFragment", "spendings + ");
+                spendings.forEach(e -> {
+                    Log.i("SpendingListFragment", e.toString());
+                });
+            }
+        });
     }
 
     @Override
