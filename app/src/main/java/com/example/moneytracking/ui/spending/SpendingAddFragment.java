@@ -23,7 +23,6 @@ import java.util.concurrent.Executor;
 public class SpendingAddFragment extends Fragment {
 
     private FragmentSpendingAddBinding binding;
-    private Executor executor;
     private final String addSpendingTag = "SpendingAddFragment";
     private ApplicationDatabase applicationDatabase;
 
@@ -40,7 +39,6 @@ public class SpendingAddFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        executor = ((MainActivity)getActivity()).getExecutor();
         applicationDatabase = ApplicationDatabase.getInstance(getContext());
         SpendingDao spendingDao = applicationDatabase.SpendingDao();
 
@@ -55,17 +53,17 @@ public class SpendingAddFragment extends Fragment {
         binding.btnAddSpending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    Spending sp = new Spending(binding.tiSpendingTitle.getText().toString(), Integer.parseInt(binding.tiSpendingCost.getText().toString()));
-                    Log.i(addSpendingTag, sp.toString());
-                    Log.d(addSpendingTag, binding.tiSpendingTitle.getText().toString());
-                    Log.d(addSpendingTag, binding.tiSpendingCost.getText().toString());
-                    executor.execute(() -> spendingDao.insertSpendings(sp));
-                } catch (NullPointerException | NumberFormatException  | Spending.InvalidSpendingException e) {
-                    Log.e(addSpendingTag, e.toString());
-                    Toast toast = Toast.makeText(view.getContext(), "unable to create spending item", Toast.LENGTH_LONG);
-                    toast.show();
-                }
+//                try {
+//                    Spending sp = new Spending(binding.tiSpendingTitle.getText().toString(), Integer.parseInt(binding.tiSpendingCost.getText().toString()));
+//                    Log.i(addSpendingTag, sp.toString());
+//                    Log.d(addSpendingTag, binding.tiSpendingTitle.getText().toString());
+//                    Log.d(addSpendingTag, binding.tiSpendingCost.getText().toString());
+//                    executor.execute(() -> spendingDao.insertSpendings(sp));
+//                } catch (NullPointerException | NumberFormatException  | Spending.InvalidSpendingException e) {
+//                    Log.e(addSpendingTag, e.toString());
+//                    Toast toast = Toast.makeText(view.getContext(), "unable to create spending item", Toast.LENGTH_LONG);
+//                    toast.show();
+//                }
             }
         });
     }

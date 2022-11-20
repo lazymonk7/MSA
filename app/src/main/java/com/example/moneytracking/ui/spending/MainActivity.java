@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
-    private final Executor executor = Executors.newSingleThreadExecutor();
     private ApplicationDatabase applicationDatabase;
 
 
@@ -37,14 +36,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         applicationDatabase = ApplicationDatabase.getInstance(getApplicationContext());
-
-        executor.execute(() -> {
-            Log.i("SpendingActivity", "SPENDINGS IN DB:");
-            List<Spending> spendingList = applicationDatabase.SpendingDao().getAll();
-            for (int i = 0; i < spendingList.size(); i++) {
-                Log.i("SpendingActivity", spendingList.get(i).toString());
-            }
-        });
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -85,7 +76,4 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    public Executor getExecutor() {
-        return executor;
-    }
 }
