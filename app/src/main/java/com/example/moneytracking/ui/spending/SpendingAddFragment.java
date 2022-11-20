@@ -16,6 +16,7 @@ import com.example.moneytracking.data.ApplicationDatabase;
 import com.example.moneytracking.data.SpendingDao;
 import com.example.moneytracking.databinding.FragmentSpendingAddBinding;
 import com.example.moneytracking.entities.Spending;
+import com.example.moneytracking.models.SpendingViewModel;
 
 import java.util.concurrent.Executor;
 
@@ -24,7 +25,6 @@ public class SpendingAddFragment extends Fragment {
 
     private FragmentSpendingAddBinding binding;
     private final String addSpendingTag = "SpendingAddFragment";
-    private ApplicationDatabase applicationDatabase;
 
 
     @Override
@@ -39,8 +39,7 @@ public class SpendingAddFragment extends Fragment {
 
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        applicationDatabase = ApplicationDatabase.getInstance(getContext());
-        SpendingDao spendingDao = applicationDatabase.SpendingDao();
+
 
         binding.buttonSecond.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,17 +52,19 @@ public class SpendingAddFragment extends Fragment {
         binding.btnAddSpending.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                try {
-//                    Spending sp = new Spending(binding.tiSpendingTitle.getText().toString(), Integer.parseInt(binding.tiSpendingCost.getText().toString()));
-//                    Log.i(addSpendingTag, sp.toString());
-//                    Log.d(addSpendingTag, binding.tiSpendingTitle.getText().toString());
-//                    Log.d(addSpendingTag, binding.tiSpendingCost.getText().toString());
-//                    executor.execute(() -> spendingDao.insertSpendings(sp));
-//                } catch (NullPointerException | NumberFormatException  | Spending.InvalidSpendingException e) {
-//                    Log.e(addSpendingTag, e.toString());
-//                    Toast toast = Toast.makeText(view.getContext(), "unable to create spending item", Toast.LENGTH_LONG);
-//                    toast.show();
-//                }
+                SpendingViewModel spendingViewModel = ((MainActivity)getActivity()).getSpendingViewModel();
+                try {
+                    Spending sp = new Spending(binding.tiSpendingTitle.getText().toString(), Integer.parseInt(binding.tiSpendingCost.getText().toString()));
+                    spendingViewModel.addSpending(sp);
+
+                    // navigate back after adding a spending
+                    NavHostFragment.findNavController(SpendingAddFragment.this)
+                            .navigate(R.id.action_SpendingAddFragment_to_SpendingListFragment);
+                } catch (NullPointerException | NumberFormatException  | Spending.InvalidSpendingException e) {
+                    Log.e(addSpendingTag, e.toString());
+                    Toast toast = Toast.makeText(view.getContext(), "unable to create spending item", Toast.LENGTH_LONG);
+                    toast.show();
+                }
             }
         });
     }

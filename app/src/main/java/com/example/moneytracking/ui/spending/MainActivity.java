@@ -10,12 +10,14 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.util.Log;
 
+import androidx.lifecycle.ViewModelProvider;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 import com.example.moneytracking.databinding.ActivityMainBinding;
+import com.example.moneytracking.models.SpendingViewModel;
 
 import android.view.Menu;
 import android.view.MenuItem;
@@ -29,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private AppBarConfiguration appBarConfiguration;
     private ActivityMainBinding binding;
     private ApplicationDatabase applicationDatabase;
-
+    private SpendingViewModel spendingViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_content_main);
         appBarConfiguration = new AppBarConfiguration.Builder(navController.getGraph()).build();
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+
+        spendingViewModel = new ViewModelProvider(this).get(SpendingViewModel.class);
     }
 
     @Override
@@ -76,4 +80,7 @@ public class MainActivity extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
+    public SpendingViewModel getSpendingViewModel() {
+        return spendingViewModel;
+    }
 }
