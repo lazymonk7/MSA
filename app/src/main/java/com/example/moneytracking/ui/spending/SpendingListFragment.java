@@ -5,6 +5,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
@@ -13,12 +15,17 @@ import androidx.navigation.fragment.NavHostFragment;
 import com.example.moneytracking.R;
 import com.example.moneytracking.databinding.FragmentSpendingListBinding;
 import com.example.moneytracking.models.SpendingViewModel;
-import com.google.android.material.snackbar.Snackbar;
+
+import java.util.ArrayList;
 
 
 public class SpendingListFragment extends Fragment {
 
     private FragmentSpendingListBinding binding;
+    private static final String spendingListFragmentTag = "SpendingListFragment";
+
+    ListView simpleList;
+
 
     @Override
     public View onCreateView(
@@ -36,6 +43,9 @@ public class SpendingListFragment extends Fragment {
             }
         });
 
+        simpleList = binding.spendingsListView;
+
+
         return binding.getRoot();
     }
 
@@ -49,9 +59,17 @@ public class SpendingListFragment extends Fragment {
         SpendingViewModel spendingViewModel = ((MainActivity)getActivity()).getSpendingViewModel();
         spendingViewModel.getSpendings().observe(getViewLifecycleOwner(), spendings -> {
             if (spendings != null) {
-                Log.i("SpendingListFragment", "spendings + ");
+                String[] spendingArray = new String[spendings.size()];
+                for (int i=0; i<spendings.size(); i++) {
+                    spendingArray[i] = spendings.get(i).toString();
+                }
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getContext(), R.layout.list_view_item, R.id.spendingItem, spendingArray);
+                simpleList.setAdapter(arrayAdapter);
+
+                Log.i(spendingListFragmentTag, "spendings + ");
                 spendings.forEach(e -> {
-                    Log.i("SpendingListFragment", e.toString());
+                    Log.i(spendingListFragmentTag, e.toString());
                 });
             }
         });
